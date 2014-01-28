@@ -51,6 +51,7 @@ import org.xnio.IoUtils;
 public abstract class CommonDeployableContainer<T extends CommonContainerConfiguration> implements DeployableContainer<T> {
 
     private static final String JBOSS_URL_PKG_PREFIX = "org.jboss.ejb.client.naming";
+    private static final Logger logger = Logger.getLogger(CommonDeployableContainer.class.getName());
 
     private T containerConfig;
 
@@ -96,6 +97,8 @@ public abstract class CommonDeployableContainer<T extends CommonContainerConfigu
 
         ManagementClient client = new ManagementClient(modelControllerClient, containerConfig.getManagementAddress(), containerConfig.getManagementPort(), containerConfig.getManagementProtocol());
         managementClient.set(client);
+
+        logger.log(Level.FINE, "created management client for: host=" + containerConfig.getManagementAddress() + " port=" + containerConfig.getManagementPort() + " protocol=" + containerConfig.getManagementProtocol());
 
         ArchiveDeployer deployer = new ArchiveDeployer(modelControllerClient);
         archiveDeployer.set(deployer);
@@ -166,7 +169,7 @@ public abstract class CommonDeployableContainer<T extends CommonContainerConfigu
         try {
             IoUtils.safeClose(getManagementClient());
         } catch (final Exception e) {
-            Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
+            logger.log(Level.WARNING,
                 "Caught exception closing ModelControllerClient", e);
         }
     }

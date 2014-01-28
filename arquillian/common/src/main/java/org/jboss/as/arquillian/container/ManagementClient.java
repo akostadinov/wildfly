@@ -190,6 +190,7 @@ public class ManagementClient implements AutoCloseable, Closeable {
         } catch (RuntimeException rte) {
             throw rte;
         } catch (IOException ex) {
+            logger.log(Logger.Level.INFO, "server not started yet", ex);
             return false;
         }
     }

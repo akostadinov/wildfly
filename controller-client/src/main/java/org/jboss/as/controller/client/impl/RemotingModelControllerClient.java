@@ -60,6 +60,10 @@ public class RemotingModelControllerClient extends AbstractModelControllerClient
     private final ModelControllerClientConfiguration clientConfiguration;
     private final StackTraceElement[] allocationStackTrace;
 
+    public ModelControllerClientConfiguration getClientConfiguration() {
+        return clientConfiguration;
+    }
+
     public RemotingModelControllerClient(final ModelControllerClientConfiguration configuration) {
         this.channelAssociation = new ManagementChannelHandler(new ManagementClientChannelStrategy() {
             @Override

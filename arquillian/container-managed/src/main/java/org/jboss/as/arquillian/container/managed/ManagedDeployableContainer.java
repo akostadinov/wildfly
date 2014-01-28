@@ -193,6 +193,9 @@ public final class ManagedDeployableContainer extends CommonDeployableContainer<
                 }
             }
             if (!serverAvailable) {
+                org.jboss.as.controller.client.impl.RemotingModelControllerClient a = (org.jboss.as.controller.client.impl.RemotingModelControllerClient) getManagementClient().getControllerClient();
+                org.jboss.as.controller.client.impl.ClientConfigurationImpl b = (org.jboss.as.controller.client.impl.ClientConfigurationImpl) a.getClientConfiguration();
+                log.severe("could not verify server started: host=" + b.getHost());
                 destroyProcess();
                 throw new TimeoutException(String.format("Managed server was not started within [%d] s", getContainerConfiguration().getStartupTimeoutInSeconds()));
             }
@@ -200,6 +203,9 @@ public final class ManagedDeployableContainer extends CommonDeployableContainer<
         } catch (Exception e) {
             throw new LifecycleException("Could not start container", e);
         }
+        org.jboss.as.controller.client.impl.RemotingModelControllerClient a = (org.jboss.as.controller.client.impl.RemotingModelControllerClient) getManagementClient().getControllerClient();
+        org.jboss.as.controller.client.impl.ClientConfigurationImpl b = (org.jboss.as.controller.client.impl.ClientConfigurationImpl) a.getClientConfiguration();
+        log.info("server started: host=" + b.getHost());
     }
 
     /**
